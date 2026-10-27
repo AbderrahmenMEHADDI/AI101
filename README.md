@@ -34,7 +34,7 @@ AI101/
 │   ├── preprocessing/             # Data cleaning & transformation
 │   └── annotated/                 # Curated datasets for training
 │
-├── rag/                           # Retrieval-Augmented Generation
+├── rag_ingestion/                 # Retrieval-Augmented Generation & Ingestion
 ├── training/                      # LLM fine-tuning
 ├── grading/                       # Automated grading engine
 ├── evaluation/                    # System evaluation
@@ -105,22 +105,32 @@ annotated/
 
 ---
 
-### 2. RAG — `rag/`
+### 2. RAG & Ingestion — `rag_ingestion/`
 
-Retrieval-Augmented Generation pipeline for grounding LLM responses in actual course materials.
+End-to-end Retrieval-Augmented Generation (RAG) and document ingestion pipeline for grounding LLM tutoring in actual course materials.
 
 ```
-rag/
-├── indexing/        # Document indexing and ingestion scripts
-├── retrieval/       # Query processing and retrieval logic
-├── embeddings/      # Embedding model wrappers and utilities
-└── vectorstore/     # Vector database configuration and storage
+rag_ingestion/
+├── chunking/        # Chunking strategies (semantic, sliding window, token-based)
+├── classifiers/     # Document & content classification
+├── embeddings/      # Embedding model wrappers & utilities
+├── extractors/      # Text, OCR, table, and figure extractors
+├── generation/      # Context builders, prompt builders, and LLM generators
+├── loaders/         # Document loaders (PDF, PPTX, DOCX, TXT)
+├── retrieval/       # Candidate retrieval & cross-encoder re-ranking
+├── storage/         # Vector database (Qdrant) & storage operations
+├── tests/           # Unit and integration tests for RAG pipeline
+├── config.py        # Pipeline configuration & environment variable loaders
+├── pipeline.py      # Document ingestion & indexing orchestration
+├── rag_pipeline.py  # End-to-end RAG query & answering pipeline
+└── schema.py        # Core data structures and Pydantic schemas
 ```
 
-- **Indexing** — Ingests preprocessed documents, generates vector embeddings, stores in vector DB.
-- **Retrieval** — Encodes user queries and retrieves the most relevant document chunks with re-ranking.
-- **Embeddings** — Wrapper around embedding models (e.g., `sentence-transformers`). Configurable via `configs/config.yaml`.
-- **Vector Store** — Supports FAISS or ChromaDB for persistent embedding storage.
+- **Loaders & Extractors** — Ingest raw course materials, extract text, tables, figures, and run OCR when needed.
+- **Chunking & Classification** — Clean, classify, and split documents into semantically coherent chunks with overlap.
+- **Embeddings & Storage** — Compute dense vector embeddings and index them in vector storage (Qdrant).
+- **Retrieval & Reranking** — Retrieve candidate chunks and rerank using cross-encoders for high-precision context.
+- **Generation** — Token-budgeted context construction and prompt generation for LLM response synthesis.
 
 ---
 

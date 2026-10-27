@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
     # RAG
     EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
-    VECTOR_STORE_PATH: str = "rag/vectorstore"
+    VECTOR_STORE_PATH: str = "rag_ingestion/storage"
     TOP_K_RESULTS: int = 5
 
     # LLM
