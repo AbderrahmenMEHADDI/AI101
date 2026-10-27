@@ -1,0 +1,38 @@
+# RAG Configuration
+rag:
+  embedding_model: "sentence-transformers/all-MiniLM-L6-v2"
+  vector_store: "faiss"           # Options: faiss, chromadb
+  chunk_size: 512
+  chunk_overlap: 50
+  top_k: 5                        # Number of retrieved chunks
+  similarity_threshold: 0.7
+
+# Training Configuration
+training:
+  base_model: "meta-llama/Llama-2-7b-hf"
+  method: "lora"                   # Options: lora, qlora, full
+  epochs: 3
+  batch_size: 4
+  learning_rate: 2.0e-4
+  max_seq_length: 2048
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+
+# Grading Configuration
+grading:
+  rubric_format: "json"
+  scoring_mode: "weighted"         # Options: weighted, binary
+  show_breakdown: true
+  exam_mode_guardrails: true
+
+# App Configuration
+app:
+  backend:
+    host: "0.0.0.0"
+    port: 8000
+    debug: true
+    framework: "fastapi"
+  frontend:
+    port: 3000
+    framework: "nextjs"
